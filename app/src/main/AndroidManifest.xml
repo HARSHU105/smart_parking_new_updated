@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.parkingsystem">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:name="com.example.parkingsystem.utils.AppConstants"
+        android:allowBackup="true"
+        android:icon="@drawable/logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name="com.example.parkingsystem.OwnerUser.UpdateDetailsActivity"/>
+        <activity
+            android:name="com.example.parkingsystem.RegisterLogin.RecoverAccountActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.example.parkingsystem.RegisterLogin.VerifiedActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.example.parkingsystem.RegisterLogin.StepperWizardActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.example.parkingsystem.RegisterLogin.ResetPasswordActivity"
+            android:theme="@style/NoActionBar" />
+        <activity android:name="com.example.parkingsystem.common.BookingDetailsActivity" />
+        <activity android:name="com.example.parkingsystem.ui.profile.UpiDetailsActivity" />
+        <activity android:name="com.example.parkingsystem.ui.profile.AboutMeActivity" />
+        <activity android:name="com.example.parkingsystem.ui.profile.ChangePasswordActivity" />
+        <activity android:name="com.example.parkingsystem.ui.profile.PersonalDetailsActivity" />
+        <activity android:name="com.example.parkingsystem.NormalUser.NearByAreaActivity" />
+        <activity android:name="com.example.parkingsystem.OwnerUser.AreaHistoryActivity" />
+        <activity android:name="com.example.parkingsystem.NormalUser.UserHistoryActivity" />
+        <activity
+            android:name="com.example.parkingsystem.RegisterLogin.SplashScreen"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter android:label="@string/app_name">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "https://dms24081999.loca.lt/api/users/reset-password/” -->
+                <data
+                    android:host="@string/firebase_page_url"
+                    android:pathPrefix="@string/firebase_page_path"
+                    android:scheme="@string/firebase_page_protocol" />
+                <!-- note that the leading "/" is required for pathPrefix -->
+            </intent-filter>
+            <intent-filter android:label="one-Q-shop">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <!-- Accepts URIs that begin with "one_q_shop://reset_password” -->
+                <data
+                    android:host="reset_password"
+                    android:scheme="one_q_shop" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.example.parkingsystem.OwnerUser.MainOwnerActivity" />
+        <activity
+            android:name="com.example.parkingsystem.NormalUser.MainNormalActivity"
+            android:launchMode="singleTop" /> <!-- for no stacking due to notification -->
+        <activity android:name="com.example.parkingsystem.NormalUser.BookParkingAreaActivity" />
+        <activity android:name="com.example.parkingsystem.OwnerUser.AddPositionActivity" />
+        <activity android:name="com.example.parkingsystem.NormalUser.GPSMapActivity" />
+        <activity
+            android:name="com.example.parkingsystem.RegisterLogin.ForgotPasswordActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.example.parkingsystem.RegisterLogin.RegisterActivity"
+            android:theme="@style/NoActionBar" />
+        <activity
+            android:name="com.example.parkingsystem.RegisterLogin.LoginActivity"
+            android:theme="@style/NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" /> <!-- Google Maps API key -->
+        <receiver
+            android:name="com.example.parkingsystem.utils.notifications.NotificationReceiver"
+            android:enabled="true"
+            android:exported="false" />
+        <receiver android:name="com.example.parkingsystem.utils.notifications.NotificationActionReceiver" /> <!-- Notification receiver -->
+        <!-- Home Screen Widget Start -->
+        <receiver
+            android:name="com.example.parkingsystem.utils.widgets.ParkingOwnerUserWidget"
+            android:label="Smart Parking (Owner User)">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/parking_owner_user_widget_info" />
+        </receiver>
+        <receiver
+            android:name="com.example.parkingsystem.utils.widgets.ParkingNormalUserWidget"
+            android:label="Smart Parking (Normal User)">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/parking_normal_user_widget_info" />
+        </receiver> <!-- Home Screen Widget End -->
+        <!-- Background service Start -->
+        <service
+            android:name="com.example.parkingsystem.utils.services.MyParkingService"
+            android:foregroundServiceType="dataSync" />
+        <meta-data android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+    </application>
+
+</manifest>
